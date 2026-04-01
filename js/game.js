@@ -136,17 +136,14 @@ spot.position.set(0,8,4); spot.target.position.set(0,0,0); scene.add(spot); scen
 let model=null, mixer=null;
 const actions={};
 
-const CORE_ANIMS = [
+const ANIMS = [
     {k:'WALK',   f:'ANIMACIONES/CAMINANDO.glb'},
     {k:'IDLE',   f:'ANIMACIONES/HABLANDO.glb'},
     {k:'SOFT',   f:'ANIMACIONES/GOLPE SIMPLE.glb'},
     {k:'HARD',   f:'ANIMACIONES/GOLPE DURO.glb'},
     {k:'FALL',   f:'ANIMACIONES/GOLPE Y CAE.glb'},
     {k:'GND',    f:'ANIMACIONES/TIRADO EN EL SUELO .glb'},
-    {k:'GETUP',  f:'ANIMACIONES/LEVANTANDOSE DESPUES DE CAIDA .glb'}
-];
-
-const EXTRA_ANIMS = [
+    {k:'GETUP',  f:'ANIMACIONES/LEVANTANDOSE DESPUES DE CAIDA .glb'},
     {k:'BLEG',   f:'ANIMACIONES/SUPLICANDO.glb'},
     {k:'BOW',    f:'ANIMACIONES/REVERENCIA.glb'},
     {k:'NO',     f:'ANIMACIONES/NO CON LA CABEZA.glb'},
@@ -160,10 +157,10 @@ const EXTRA_ANIMS = [
     {k:'CONF',      f:'ANIMACIONES/CONFUSO.glb'}
 ];
 
-async function loadCore(){
+async function loadAll(){
     const ldr = new GLTFLoader();
-    for(let i=0;i<CORE_ANIMS.length;i++){
-        const {k,f}=CORE_ANIMS[i];
+    for(let i=0;i<ANIMS.length;i++){
+        const {k,f}=ANIMS[i];
         await new Promise(res=>{
             ldr.load(f,(gltf)=>{
                 if(!model){
@@ -180,25 +177,8 @@ async function loadCore(){
                     a.setLoop(THREE.LoopOnce,1); a.clampWhenFinished=true;
                     actions[k]=a;
                 }
-                const p=Math.round(((i+1)/CORE_ANIMS.length)*100);
+                const p=Math.round(((i+1)/ANIMS.length)*100);
                 loaderBar.style.width=p+'%'; loaderPct.textContent=p+'%';
-                res();
-            },undefined,()=>res());
-        });
-    }
-}
-
-async function loadExtras(){
-    const ldr = new GLTFLoader();
-    for(let i=0;i<EXTRA_ANIMS.length;i++){
-        const {k,f}=EXTRA_ANIMS[i];
-        await new Promise(res=>{
-            ldr.load(f,(gltf)=>{
-                if(mixer && gltf.animations.length){
-                    const a=mixer.clipAction(gltf.animations[0]);
-                    a.setLoop(THREE.LoopOnce,1); a.clampWhenFinished=true;
-                    actions[k]=a;
-                }
                 res();
             },undefined,()=>res());
         });
@@ -394,12 +374,6 @@ let loopAnimKey = null;
 function playExtra(animKey, bubbleTxt2, rot=0){
     if (state !== S.IDLE && state !== S.LOOPING) return;
 
-    if (!actions[animKey]) {
-        showBubble('⏳ Recordando cómo... (Descargando)');
-        setTimeout(hideBubble, 1800);
-        return;
-    }
-
     // Detener sonidos de ejercicios anteriores
     stopExtras();
 
@@ -566,13 +540,10 @@ window.addEventListener('resize',()=>{
 SFX.init();
 animate(); // render loop corre desde el inicio (muestra fondo 3D durante carga)
 
-loadCore().then(()=>{
+loadAll().then(()=>{
     // Ocultar pantalla de carga
     loaderScreen.classList.add('fade-out');
     setTimeout(()=>{ loaderScreen.style.display='none'; }, 900);
-
-    // Iniciar descarga de animaciones secundarias en segundo plano (silenciosa)
-    setTimeout(loadExtras, 500);
 
     // Mostrar botón de inicio
     const startScreen = document.getElementById('start-screen');
