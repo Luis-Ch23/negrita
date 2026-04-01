@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para Ti, Negrita 💜</title>
+    <meta name="description" content="Una disculpa especial, desde el corazón.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/intro.css">
+</head>
+<body>
+    <canvas id="bg-canvas"></canvas>
+
+    <div id="slides-container">
+
+        <!-- Slide 0: Opening -->
+        <div class="slide active" id="slide-0">
+            <div class="slide-inner">
+                <div class="initial-orb">
+                    <div class="orb-ring ring-1"></div>
+                    <div class="orb-ring ring-2"></div>
+                    <div class="orb-ring ring-3"></div>
+                    <span class="orb-letter">N</span>
+                </div>
+                <p class="typewriter-line" id="tw-main"></p>
+                <div class="tap-hint">
+                    <span>toca para continuar</span>
+                    <div class="bounce-arrow">▼</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 1: The night -->
+        <div class="slide" id="slide-1">
+            <div class="slide-inner">
+                <div class="glass-card">
+                    <div class="card-icon">🌙</div>
+                    <p class="reveal-line rl-d1">Hay noches que uno quisiera borrar…</p>
+                    <p class="reveal-line rl-d2">Noches donde las palabras salen sin filtro,</p>
+                    <p class="reveal-line rl-d3">sin pensar en quien está del otro lado.</p>
+                    <p class="reveal-line rl-d4 italic-accent">Esa noche fui yo.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 2: Who she is -->
+        <div class="slide" id="slide-2">
+            <div class="slide-inner">
+                <div class="glass-card wide-card">
+                    <div class="lluvia-header">
+                        <div class="lluvia-name">Lluvia</div>
+                        <div class="lluvia-subtitle">negrita de mi corazón 💜</div>
+                    </div>
+                    <p class="reveal-line rl-d1">Eres la persona más importante en mi vida.</p>
+                    <p class="reveal-line rl-d2 bold-line">Prácticamente mi hermana.</p>
+                    <div class="truth-sep"></div>
+                    <p class="reveal-line rl-d3 rose-text">Lo que dije esa noche... no lo pienso.</p>
+                    <p class="reveal-line rl-d4 rose-text">Nunca lo he pensado. <strong>Nunca lo pensaré.</strong></p>
+                    <p class="reveal-line rl-d5 soft-text">Fueron palabras vacías de una noche que no debió pasar.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 3: Final apology -->
+        <div class="slide" id="slide-3">
+            <div class="slide-inner">
+                <div class="glass-card final-card">
+                    <div id="hearts-rain"></div>
+                    <h1 class="reveal-line rl-d1 sorry-heading">Lo siento muchísimo,<br><em>Negrita.</em></h1>
+                    <p class="reveal-line rl-d2">Espero que puedas encontrar en tu corazón</p>
+                    <p class="reveal-line rl-d3">el espacio para perdonarme.</p>
+                    <p class="reveal-line rl-d4 gold-text">Porque tú eres de las pocas personas que realmente importan.</p>
+                    <div class="cta-wrapper" id="cta-wrapper">
+                        <p class="cta-pre">…y si quieres desahogarte un poco 😏</p>
+                        <a href="game.html" class="cta-button" id="main-cta">
+                            <span class="btn-label">¡Tengo algo especial para ti!</span>
+                            <span class="btn-fist">👊</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <nav class="slide-nav" id="slide-nav">
+        <button class="nav-dot active" data-index="0"></button>
+        <button class="nav-dot" data-index="1"></button>
+        <button class="nav-dot" data-index="2"></button>
+        <button class="nav-dot" data-index="3"></button>
+    </nav>
+
+    <button class="skip-btn" id="skip-btn">Ir al final →</button>
+
+    <script src="js/intro.js"></script>
+</body>
+</html>

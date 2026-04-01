@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>¡Desahógate, Negrita! 👊</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=Lato:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/game.css">
+</head>
+<body>
+
+    <!-- Loading Screen -->
+    <div id="loading-screen">
+        <div class="loader-content">
+            <div class="loader-orb">
+                <div class="loader-ring"></div>
+                <span class="loader-fist">👊</span>
+            </div>
+            <p class="loader-title">Preparando tu sesión de desahogo…</p>
+            <div class="loader-bar-wrap">
+                <div class="loader-bar" id="loader-bar"></div>
+            </div>
+            <p class="loader-pct" id="loader-pct">0%</p>
+        </div>
+    </div>
+
+    <!-- 3D Canvas -->
+    <div id="renderer-container"></div>
+
+    <!-- Pantalla de inicio (aparece tras cargar) -->
+    <div id="start-screen" class="hidden">
+        <div class="start-inner">
+            <div class="start-emoji">👊</div>
+            <h2>¡Lista para desahogarte?</h2>
+            <p>Toca para comenzar</p>
+            <button id="start-btn">¡EMPEZAR!</button>
+        </div>
+    </div>
+
+    <!-- Zona de toque sobre el personaje (invisible) -->
+    <div id="touch-zone"></div>
+
+    <!-- HUD -->
+    <div id="hud" class="hidden">
+
+        <!-- Top Bar -->
+        <div id="top-bar">
+            <a href="index.html" class="back-btn">← Carta</a>
+            <div class="ko-counter">
+                <span>KOs</span>
+                <span id="ko-count">0</span>
+            </div>
+        </div>
+
+        <!-- Speech Bubble -->
+        <div id="speech-bubble" class="hidden">
+            <span id="bubble-text">...</span>
+            <div class="bubble-tail"></div>
+        </div>
+
+
+        <!-- Hit pips -->
+        <div id="hit-pips">
+            <div class="pip" id="pip-1"></div>
+            <div class="pip" id="pip-2"></div>
+            <div class="pip" id="pip-3"></div>
+        </div>
+
+        <!-- Hint -->
+        <div id="tap-hint" class="hidden">
+            <div class="hint-ring"></div>
+            <p>Toca al personaje</p>
+            <p class="hint-sub">Mantén presionado para levantarlo ☝️</p>
+        </div>
+
+        <!-- Flash -->
+        <div id="hit-flash"></div>
+
+        <!-- Photo frame -->
+        <div id="photo-frame" class="hidden">
+            <img id="photo-img" src="" alt="Foto">
+        </div>
+
+    </div>
+
+    <!-- FAB Menu — fuera del HUD para tener z-index propio sobre la zona táctil -->
+    <div id="fab-wrap" class="hidden">
+        <!-- Sub-botones (ocultos por defecto) -->
+        <div id="fab-sub" class="fab-sub-hidden">
+            <button class="fab-sub-btn" id="btn-lagartija" title="Lagartijas">
+                <span>💪</span><span class="fab-lbl">Lagartijas</span>
+            </button>
+            <button class="fab-sub-btn" id="btn-salto" title="Saltos de tijera">
+                <span>✂️</span><span class="fab-lbl">Salto tijera</span>
+            </button>
+            <button class="fab-sub-btn" id="btn-backflip" title="Backflip">
+                <span>🤸</span><span class="fab-lbl">Backflip</span>
+            </button>
+            <button class="fab-sub-btn" id="btn-voltereta" title="Voltereta">
+                <span>🔄</span><span class="fab-lbl">Voltereta</span>
+            </button>
+            <button class="fab-sub-btn" id="btn-migajear" title="Migajear">
+                <span>🐛</span><span class="fab-lbl">Migajear</span>
+            </button>
+            <button class="fab-sub-btn" id="btn-bailar" title="Bailar">
+                <span>🕺</span><span class="fab-lbl">Bailar</span>
+            </button>
+            <button class="fab-sub-btn" id="btn-foto" title="Foto misteriosa">
+                <span>🎩</span><span class="fab-lbl">Foto misteriosa</span>
+            </button>
+        </div>
+        <!-- Botón principal -->
+        <button id="fab-main" title="Más opciones">🎮</button>
+    </div>
+
+    <script type="importmap">
+    { "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+    } }
+    </script>
+    <script type="module" src="js/game.js"></script>
+</body>
+</html>
