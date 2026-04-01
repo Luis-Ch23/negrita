@@ -136,53 +136,43 @@ spot.position.set(0,8,4); spot.target.position.set(0,0,0); scene.add(spot); scen
 let model=null, mixer=null;
 const actions={};
 
-const ANIMS = [
-    {k:'WALK',   f:'ANIMACIONES/CAMINANDO.glb'},
-    {k:'IDLE',   f:'ANIMACIONES/HABLANDO.glb'},
-    {k:'SOFT',   f:'ANIMACIONES/GOLPE SIMPLE.glb'},
-    {k:'HARD',   f:'ANIMACIONES/GOLPE DURO.glb'},
-    {k:'FALL',   f:'ANIMACIONES/GOLPE Y CAE.glb'},
-    {k:'GND',    f:'ANIMACIONES/TIRADO EN EL SUELO .glb'},
-    {k:'GETUP',  f:'ANIMACIONES/LEVANTANDOSE DESPUES DE CAIDA .glb'},
-    {k:'BLEG',   f:'ANIMACIONES/SUPLICANDO.glb'},
-    {k:'BOW',    f:'ANIMACIONES/REVERENCIA.glb'},
-    {k:'NO',     f:'ANIMACIONES/NO CON LA CABEZA.glb'},
-    {k:'SALTO',  f:'ANIMACIONES/SALTO TIJERA.glb'},
-    {k:'BACKFLIP',  f:'ANIMACIONES/BACKFLIP.glb'},
-    {k:'VOLTERETA', f:'ANIMACIONES/VOLTERETA .glb'},
-    {k:'MIGAJA',    f:'ANIMACIONES/ARRASTRADO POR EL PISO.glb'},
-    {k:'MOSTRAR',   f:'ANIMACIONES/mostrar.glb'},
-    {k:'LAG',       f:'ANIMACIONES/LAGARTIJA.glb'},
-    {k:'DANCE',     f:'ANIMACIONES/BAILANDO.glb'},
-    {k:'CONF',      f:'ANIMACIONES/CONFUSO.glb'}
-];
-
 async function loadAll(){
     const ldr = new GLTFLoader();
-    for(let i=0;i<ANIMS.length;i++){
-        const {k,f}=ANIMS[i];
-        await new Promise(res=>{
-            ldr.load(f,(gltf)=>{
-                if(!model){
-                    model=gltf.scene;
-                    model.traverse(c=>{ if(c.isMesh){c.castShadow=true;c.receiveShadow=true;} });
-                    model.rotation.y=0;
-                    model.position.set(0,0,-12);
-                    scene.add(model);
-                    mixer=new THREE.AnimationMixer(model);
-                    mixer.addEventListener('finished',onDone);
-                }
-                if(gltf.animations.length){
-                    const a=mixer.clipAction(gltf.animations[0]);
-                    a.setLoop(THREE.LoopOnce,1); a.clampWhenFinished=true;
-                    actions[k]=a;
-                }
-                const p=Math.round(((i+1)/ANIMS.length)*100);
-                loaderBar.style.width=p+'%'; loaderPct.textContent=p+'%';
-                res();
-            },undefined,()=>res());
+
+    await new Promise(res=>{
+        ldr.load('ANIMACIONES/MASTER.glb', (gltf)=>{
+            model = gltf.scene;
+            model.traverse(c=>{ if(c.isMesh){c.castShadow=true;c.receiveShadow=true;} });
+            model.rotation.y = 0;
+            model.position.set(0,0,-12);
+            scene.add(model);
+            mixer = new THREE.AnimationMixer(model);
+            mixer.addEventListener('finished',onDone);
+
+            // Leer todos los clips de animación incrustados
+            for (let i = 0; i < gltf.animations.length; i++) {
+                const anim = gltf.animations[i];
+                const a = mixer.clipAction(anim);
+                a.setLoop(THREE.LoopOnce, 1);
+                a.clampWhenFinished = true;
+                actions[anim.name] = a; // Usar el nombre de la pista (ej. 'WALK', 'SOFT')
+            }
+
+            loaderBar.style.width = '100%'; loaderPct.textContent = '100%';
+            res();
+        }, 
+        (xhr) => {
+            if (xhr.lengthComputable) {
+                const p = Math.round((xhr.loaded / xhr.total) * 100);
+                loaderBar.style.width= p +'%'; 
+                loaderPct.textContent= p +'%';
+            }
+        }, 
+        () => {
+            // Fallback error
+            res();
         });
-    }
+    });
 }
 
 // ---- Play animation ----
